@@ -5,7 +5,7 @@
 <title>DISC - Man M. Ho</title>
 <link rel="stylesheet" type="text/css" href="css/styles.css">
 </head>
-<table width="80%" style="margin-left:auto; margin-right:auto; table-layout:fixed;">
+<table width="80%" style="margin-left: auto;  margin-right: auto; table-layout:fixed;">
 	<tbody>
 		<tr>
 			<td>
@@ -23,6 +23,10 @@
 
 							<td>
 							<span style="font-size: 24px;"><b>Yosep Chong</b></span>
+							</td>
+
+							<td>
+								<span style="font-size: 24px;"><b>Yufei Zhou</b></span>
 							</td>
 
 							<td>
@@ -73,58 +77,28 @@
 			<td style="text-align: justify;">
 				<h2>Abstract</h2>
 				<br>
-				Latent Diffusion Models (LDMs) have demonstrated their ability to generate high-fidelity 
-				images from noise, offering a promising approach for augmenting histopathology images in 
-				training cancer grading models. While previous works have successfully generated high-fidelity 
-				histopathology images using LDMs, the generation of image tiles to improve slide-level cancer 
-				grading has not been thoroughly explored. Additionally, LDMs face challenges in accurately 
-				generating admixtures of multiple cancer grades in a tile when conditioned by complex masks. 
-				In this study, we train specific LDMs to generate multiple Gleason Grades (GGs) by leveraging 
-				pixel-wise annotated maps. To enable slide-level cancer grading for LDMs-generated patches, 
-				we introduce a novel sampling technique to generate patches from a virtual Whole Slide Image (WSI) 
-				with its primary and secondary GGs. Furthermore, we tackle the challenge of generating samples with 
-				complex GG-guided masks in LDMs by introducing Self-Distillation from Separated Conditions (DISC), 
-				a novel approach that enhances GG patterns aligned with GG-guided masks. Finally, we design a training 
-				framework for slide-level prostate cancer grading, where synthetic tiles are effectively utilized to 
-				improve the cancer grading performance of existing models. As a result, this work surpasses previous 
-				works in two domains: 1) our LDMs enhanced with DISC produce more accurate tiles in terms of GG patterns, 
-				and 2) our training scheme, incorporating synthetic data, significantly improves the generalization of 
-				the baseline model for prostate cancer grading, particularly in challenging cases of rare GG5, 
-				demonstrating the potential of generative models to enhance cancer grading when data is limited.
+				Latent Diffusion Models (LDMs) can generate high-fidelity images from noise, offering a promising approach for augmenting histopathology images for training cancer grading models. While previous works successfully generated high-fidelity histopathology images using LDMs, the generation of image tiles to improve prostate cancer grading has not yet been explored. Additionally, LDMs face challenges in accurately generating admixtures of multiple cancer grades in a tile when conditioned by a tile mask. In this study, we train specific LDMs to generate synthetic tiles that contain multiple Gleason Grades (GGs) by leveraging pixel-wise annotations in input tiles. We introduce a novel framework named Self-Distillation from Separated Conditions (DISC) that generates GG patterns guided by GG masks. Finally, we deploy a training framework for pixel-level and slide-level prostate cancer grading, where synthetic tiles are effectively utilized to improve the cancer grading performance of existing models. As a result, this work surpasses previous works in two domains: (1) our LDMs enhanced with DISC produce more accurate tiles in terms of GG patterns, and (2) our training scheme, incorporating synthetic data, significantly improves the generalization of the baseline model for prostate cancer grading, particularly in challenging cases of rare GG5, demonstrating the potential of generative models to enhance cancer grading when data is limited.
 				<hr>
 			</td>
-			
 		</tr>
 		<tr>
 			<td style="text-align: justify;">
 				<h2>Overview</h2>
-				<img src="data/algo_overview.jpg" width=80%/>
+				<img src="data/algo_overview.jpg" width=100%/>
 				<br>
-				Besides the real patches for training Prostate Cancer (PCa) grading model, 
-				we introduce Latent Diffusion Models (LDMs) with Self-<b>Di</b>stillation from 
-				<b>S</b>eparated <b>C</b>onditions (DISC). To enable slide-cancer grading for the generated 
-				patches, we provide a sampling technique to form a synthesized Whole Slide Image (WSI). 
-				The patches are then used to extract feature representations with a pre-trained model, 
-				and finally fed to a cancer-grading Multiple Instance Learning (MIL) model for training. 
-				For the best usage and further analysis of synthetic WSIs, we train real and synthetic 
-				WSIs simultaneously and balance training errors from these data types with a  weight.
+				Figure: Besides the real patches (top-left) for training pixel-level and slide-level Gleason grading models (right), we introduce Latent Diffusion Models (LDMs) with Self-<b>Di</b>stillation from <b>S</b>eparated <b>C</b>onditions (DISC) to accurately generate admixtures of multiple Gleason Grades in a tile when conditioned by a tile mask (bottom-left).
 				<hr>
 			</td>
 		</tr>
 
 		<tr>
-			<td style="text-align: justify;">
-				<h2>Define Tile Mask Shapes</h2>
-				<img src="data/define_shapes.jpg" width=60%/>
-				<br>
-				<hr>
-			</td>
-		</tr>
-
-		<tr>
-			<td style="text-align: justify;">
-				<h2>Sampling Tile Masks and Label Expansion</h2>
-				<img src="data/sampling.jpg" width=60%/>
+			<td style="text-align: center;">
+				<h2>Defining Tile Mask Shapes and Sampling A Bag of Tile Masks</h2>
+				<div style="display: flex; justify-content: space-between; align-items: center;">
+					<img src="data/define_shapes.jpg" width=45%/>
+					<hr style="border: none; border-left: 1px solid black; height: 128px; margin: 0 10px;">
+					<img src="data/sampling.jpg" width=45%/>
+				</div>
 				<br>
 				We preprocess human-annotated masks in SICAPv2, converting them to prepared masks with 
 				labels mapped to their frequency distribution (semantic information removed). 
@@ -136,17 +110,17 @@
 		</tr>
 
 		<tr>
-			<td style="text-align: justify;">
+			<td style="text-align: center;">
 				<h2>Latent Diffusion Models conditioned by Tile Mask</h2>
 				<img src="data/sd.jpg" width=60%/>
 				<br>
-				Latent Diffusion Models [Stable Diffusion] conditioned by guided masks with multiple Gleason Grades (GGs)
+				Latent Diffusion Models (Stable Diffusion) conditioned by guided masks with multiple Gleason Grades (GGs)
 				<hr>
 			</td>
 		</tr>
 
 		<tr>
-			<td style="text-align: justify;">
+			<td style="text-align: center;">
 				<h2>Denoising with Self-Distillation from Separated Conditions (DISC)</h2>
 				<img src="data/disc_disc.jpg" width=60%/>
 				<br>
@@ -164,11 +138,26 @@
 			<td>
 				<h2>Improving Stable Diffusion (SD)</h2>
 				<br>
-				<img src="data/qualitative_comparison.jpg" width=100%/>
-				A qualitative comparison between LayoutDiffusion (LD), Stable Diffusion (SD), and our proposed technique, SD with Self-Distillation from Separated Conditions (DISC) for histopathology image synthesis. This work yields higher-confidence label patterns compared to LayoutDiffusion and SD. Notably, 
+				<img src="data/comparison_synthetic_tiles.jpg" width=100%/>
+				<!-- A qualitative comparison between LayoutDiffusion (LD), Stable Diffusion (SD), and our proposed technique, SD with Self-Distillation from Separated Conditions (DISC) for histopathology image synthesis. This work yields higher-confidence label patterns compared to LayoutDiffusion and SD. Notably, 
 				LD tends to ignore small bounding boxes to generate patterns for larger bounding boxes (rows 4 and 5),
 				while SD tends to generate fused glands representing GG4 for Non-Cancer regions (highlighted rectangles) and sheets of cells representing GG5 for GG3-indicated regions(indicated by yellow arrows).
-				Labels (also applied for layouts in column 2): Non-Cancer(green), GG3(blue), GG4(yellow), GG5(red).
+				Labels (also applied for layouts in column 2): Non-Cancer(green), GG3(blue), GG4(yellow), GG5(red). -->
+				<p>
+					Figure: A qualitative comparison between Stable Diffusion (SD) and our proposed technique, SD with Self-Distillation from Separated Conditions (DISC), for histopathology image synthesis. This work yields higher-confidence label patterns compared to SD. Notably, SD tends to generate fused glands representing GG4 for Non-Cancer regions (highlighted rectangles) and sheets of cells representing GG5 for GG3-indicated regions<span style="color: rgb(190, 190, 0);"> (indicated by yellow arrows)</span>.
+				<em>Labels</em>: <span style="color: green;">Non-Cancer</span>, <span style="color: blue;">GG3</span>, <span style="color: rgb(190, 190, 0);">GG4</span>, <span style="color: red;">GG5</span>.
+				</p>	
+				<hr>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h2>Improving Pixel-Level Cancer Grading Models (CarcinoNet)</h2>
+				<br>
+				<img src="data/comparison_segmentation.jpg" width=100%/>
+				<p>
+					Figure: Qualitative comparison between Carcino-Net and itself trained with our techniques.
+				</p>
 				<hr>
 			</td>
 		</tr>
@@ -177,15 +166,9 @@
 				<h2>Improving MIL-based Cancer Grading Models (TransMIL)</h2>
 				<br>
 				<img src="data/charts.jpg" width=100%/>
-				A quantitative comparison among TransMIL, Mixed Supervision, and TransMIL jointly trained 
-				with tiles generated by LayoutDiffusion (LD) and Stable Diffusion with Self-Distillation from 
-				Separated Conditions (DISC) with a balance weight in [0.0, 0.9] in AUCROC. The feature representation 
-				extractor used is ViT-small (patch of 16) pre-trained on histopathology images with DINO. All models are 
-				trained on the SICAPv2 and evaluated on both in-distribution SICAPv2 and 
-				Out-Of-Distribution (OOD) PANDA. Our generated data consistently improves 
-				cancer grading performance with higher AUCROC. Please check our Supplemental Document for more results 
-				including the feature representation extractors ResNet50 pre-trained on ImageNet and histopathology images 
-				with MoCov2.
+				<p>
+					Charts: A quantitative comparison among TransMIL, Mixed Supervision, and TransMIL jointly trained with tiles generated by our models with a balance weight λ ∈ [0.0, 0.9] in AUCROC. The feature representation extractor used is ViT-small (patch of 16) pre-trained on histopathology images with DINO. All models are trained on the SICAPv2 and evaluated on both in-distribution SICAPv2 and Out-Of-Distribution (OOD) PANDA. Our generated data consistently improves cancer grading performance with higher AUCROC. Please check our Supplemental Document for more results including the feature representation extractors ResNet50 pre-trained on ImageNet and histopathology images with MoCov2.
+				</p>				
 				<hr>
 			</td>
 		</tr>
@@ -204,6 +187,25 @@
 				<h2>License</h2>
 				<br>
 				This work, including the trained models, code, and dataset, is for non-commercial uses and research purposes only.
+				<hr>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align: left;">
+				<h2>Related Works</h2>
+				<br>
+				<b>[Stable Diffusion]</b>: Rombach, Robin, Andreas Blattmann, Dominik Lorenz, Patrick Esser, and Björn Ommer. "High-resolution image synthesis with latent diffusion models." In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition, pp. 10684-10695. 2022. <br>
+				<b>[CarcinoNet]</b>: Lokhande, Avinash, Saikiran Bonthu, and Nitin Singhal. "Carcino-Net: A deep learning framework for automated Gleason grading of prostate biopsies." In 2020 42nd Annual International Conference of the IEEE Engineering in Medicine & Biology Society (EMBC), pp. 1380-1383. IEEE, 2020. <br>
+				<b>[TransMIL]</b>: Shao, Zhuchen, Hao Bian, Yang Chen, Yifeng Wang, Jian Zhang, and Xiangyang Ji. "Transmil: Transformer based correlated multiple instance learning for whole slide image classification." Advances in neural information processing systems 34 (2021): 2136-2147. <br>
+				<b>[Mixed Supervision]</b>: Bian, Hao, Zhuchen Shao, Yang Chen, Yifeng Wang, Haoqian Wang, Jian Zhang, and Yongbing Zhang. "Multiple instance learning with mixed supervision in gleason grading." In International Conference on Medical Image Computing and Computer-Assisted Intervention, pp. 204-213. Cham: Springer Nature Switzerland, 2022.
+				<hr>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<h2>Acknowledgements</h2>
+				<br>
+				We acknowledge the generous support from the Department of Defense Prostate Cancer Program Population Science Award (grant number W81XWH-21-0725); and also, the VA Merit Award (grant number 1 I01 CX002622-01). We also thank Dr. Akadiusz Gertych for the dataset from Cedars-Sinai Hospital in Los Angeles.
 				<hr>
 			</td>
 		</tr>
